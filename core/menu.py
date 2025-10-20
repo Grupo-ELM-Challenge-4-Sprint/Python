@@ -13,7 +13,7 @@ def mostrar_menu_principal():
     print("\n" + "=" * 42)
     print("         BEM-VINDO AO SIMPLESHC      ")
     print("=" * 42)
-    print("1. Cadastro de Novo Usuário")
+    print("1. Cadastro")
     print("2. Login")
     print("3. Recuperar Senha")
     print("4. Ajuda e Informações Gerais")
