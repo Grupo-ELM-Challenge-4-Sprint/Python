@@ -219,6 +219,80 @@ def tutorial_meus_dados(modo_guia_ativo):
 
 
 
+# =============================================================================
+# FUNÇÃO PARA MENU DE TUTORIAIS
+# =============================================================================
+
+def menu_tutoriais(modo_guia_interativo_ativo):
+    while True:
+        print("\n" + "=" * 50)
+        print("         TUTORIAIS DISPONÍVEIS")
+        print("=" * 50)
+        print("1. Tutorial de como cadastrar no App HC")
+        print("2. Tutorial de como logar no App HC")
+        print("3. Tutorial Esqueci minha Senha no App HC")
+        print("4. Tutorial de como acessar Resultados de Exames")
+        print("5. Tutorial de como acessar Receitas Médicas")
+        print("6. Tutorial de como acessar Minhas Agendas (Consultas/Exames)")
+        print("7. Tutorial de como acessar as Teleconsulta")
+        print("8. Tutorial de como acessar Solicitação de Exames")
+        print("9. Tutorial de como acessar Solicitação de Documentos")
+        print("10. Tutorial de como acessar os Meus Dados")
+        print("0. Voltar ao menu principal")
+        print("=" * 50)
+
+        opcao_tutorial = input("Digite o número da opção desejada e pressione Enter: ")
+
+        match opcao_tutorial:
+            case '1':  # Tutorial de Cadastro
+                tutorial_cadastro(modo_guia_interativo_ativo)
+                input("\nPressione Enter para voltar ao menu de tutoriais...")
+
+            case '2':  # Tutorial de Login
+                tutorial_login(modo_guia_interativo_ativo)
+                input("\nPressione Enter para voltar ao menu de tutoriais...")
+
+            case '3':  # Tutorial Esqueci Senha
+                tutorial_esqueci_senha(modo_guia_interativo_ativo)
+                input("\nPressione Enter para voltar ao menu de tutoriais...")
+
+            case '4':  # Tutorial de Resultados
+                tutorial_resultados(modo_guia_interativo_ativo)
+                input("\nPressione Enter para voltar ao menu de tutoriais...")
+
+            case '5':  # Tutorial de Receitas
+                tutorial_receitas(modo_guia_interativo_ativo)
+                input("\nPressione Enter para voltar ao menu de tutoriais...")
+
+            case '6':  # Tutorial de Agendas
+                tutorial_agendas(modo_guia_interativo_ativo)
+                input("\nPressione Enter para voltar ao menu de tutoriais...")
+
+            case '7':  # Tutorial de Teleconsulta
+                tutorial_teleconsulta(modo_guia_interativo_ativo)
+                input("\nPressione Enter para voltar ao menu de tutoriais...")
+
+            case '8':  # Solicitação de Exames (HC)
+                tutorial_solicitacao_exames(modo_guia_interativo_ativo)
+                input("\nPressione Enter para voltar ao menu de tutoriais...")
+
+            case '9':  # Solicitação de Documentos (HC)
+                tutorial_solicitacao_documentos(modo_guia_interativo_ativo)
+                input("\nPressione Enter para voltar ao menu de tutoriais...")
+
+            case '10':  # Meus Dados
+                tutorial_meus_dados(modo_guia_interativo_ativo)
+                input("\nPressione Enter para voltar ao menu de tutoriais...")
+
+            case '0':
+                break
+
+            case _:
+                print("\nOpção inválida. Por favor, escolha uma opção válida do menu.")
+                if modo_guia_interativo_ativo:
+                    print("[Guia]: Certifique-se de digitar apenas o número da opção desejada (ex: 1, 2, 3...).")
+
+
 # Isso aparece no tutoriais do usuário SEM LOGAR, no início do programa
 def mostrar_menu_ajuda_principal():
     while True:
