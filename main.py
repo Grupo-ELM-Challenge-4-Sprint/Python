@@ -1,4 +1,4 @@
-from core.cadastro_login_senha import *
+from core.cadastro_login import *
 from core.menu import *
 from database.database import abre_conexao, fecha_conexao, cria_tabelas_se_nao_existirem
 
