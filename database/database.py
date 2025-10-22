@@ -19,7 +19,6 @@ def abre_conexao():
             password=senha,
             dsn=f'{SERVIDOR}:{PORTA}/{SERVICO}'
         )
-        print('Conexão com o Banco de Dados estabelecida.')
         return conexao
     except oracledb.Error as e:
         print(f'Erro ao conectar ao banco de dados: {e}')
@@ -33,86 +32,76 @@ def fecha_conexao(conexao, cursor=None):
             pass
     if conexao:
         conexao.close()
-        print('Conexão com o Banco de Dados fechada.')
 
 def existe_tabela(cursor, nome_tabela):
     query = 'SELECT table_name FROM user_tables WHERE table_name = :nome'
+
     cursor.execute(query, {'nome': nome_tabela.upper()})
     resultados = cursor.fetchall()
+
     return len(resultados) == 1
 
 
-def coluna_existe(cursor, tabela, coluna):
-    query = 'SELECT column_name FROM user_tab_columns WHERE table_name = :tabela AND column_name = :coluna'
-    cursor.execute(query, {'tabela': tabela.upper(), 'coluna': coluna.upper()})
-    return cursor.fetchone() is not None
-
 
 def cria_tabelas_se_nao_existirem(cursor, conexao):
-    query_usuarios = '''
-    CREATE TABLE USUARIOS (
-        cpf VARCHAR(11) PRIMARY KEY,
-        nome VARCHAR(100),
-        email VARCHAR(100) UNIQUE,
-        celular VARCHAR(15),
-        senha VARCHAR(100)
-    )
-    '''
-    try:
+    # Tabela de Usuários
+    if not existe_tabela(cursor, 'USUARIOS'):
+        query_usuarios = '''
+        CREATE TABLE USUARIOS (
+            cpf VARCHAR(11) PRIMARY KEY,
+            nome VARCHAR(100),
+            email VARCHAR(100) UNIQUE,
+            celular VARCHAR(15),
+            senha VARCHAR(100)
+        )
+        '''
         cursor.execute(query_usuarios)
         conexao.commit()
-    except oracledb.DatabaseError as e:
-        if 'ORA-00955' in str(e) or 'already exists' in str(e).lower():
-            pass
-        else:
-            raise
+        print("Tabela USUARIOS criada!")
 
     # Tabela de Consultas
-    query_consultas = '''
-    CREATE TABLE CONSULTAS (
-        id NUMBER PRIMARY KEY,
-        usuario_cpf VARCHAR(11),
-        data_consulta DATE,
-        hora_consulta VARCHAR(5),
-        especialidade VARCHAR(100),
-        medico VARCHAR(100),
-        local_consulta VARCHAR(200),
-        status VARCHAR(20) DEFAULT 'Agendada'
-    )
-    '''
-    try:
+    if not existe_tabela(cursor, 'CONSULTAS'):
+        query_consultas = '''
+        CREATE TABLE CONSULTAS (
+            id NUMBER PRIMARY KEY,
+            usuario_cpf VARCHAR(11),
+            data_consulta DATE,
+            hora_consulta VARCHAR(5),
+            especialidade VARCHAR(100),
+            medico VARCHAR(100),
+            local_consulta VARCHAR(200),
+            status VARCHAR(20) DEFAULT 'Agendada'
+        )
+        '''
         cursor.execute(query_consultas)
         conexao.commit()
-    except oracledb.DatabaseError as e:
-        if 'ORA-00955' in str(e) or 'already exists' in str(e).lower():
-            pass
-        else:
-            raise
+        print("Tabela CONSULTAS criada!")
 
     # Tabela de Receitas
-    query_receitas = '''
-    CREATE TABLE RECEITAS (
-        id NUMBER PRIMARY KEY,
-        usuario_cpf VARCHAR(11),
-        medicamento VARCHAR(200),
-        dosagem VARCHAR(200),
-        duracao VARCHAR(50),
-        proxima_dose TIMESTAMP,
-        instrucoes VARCHAR(500),
-        status VARCHAR(20) DEFAULT 'Ativa'
-    )
-    '''
-    try:
+    if not existe_tabela(cursor, 'RECEITAS'):
+        query_receitas = '''
+        CREATE TABLE RECEITAS (
+            id NUMBER PRIMARY KEY,
+            usuario_cpf VARCHAR(11),
+            medicamento VARCHAR(200),
+            dosagem VARCHAR(200),
+            duracao VARCHAR(50),
+            proxima_dose TIMESTAMP,
+            instrucoes VARCHAR(500),
+            status VARCHAR(20) DEFAULT 'Ativa'
+        )
+        '''
         cursor.execute(query_receitas)
         conexao.commit()
-    except oracledb.DatabaseError as e:
-        if 'ORA-00955' in str(e) or 'already exists' in str(e).lower():
-            pass
-        else:
-            raise
+        print("Tabela RECEITAS criada!")
 
 
-def obter_consultas_usuario(cursor, usuario_cpf):
+
+
+
+
+
+def obter_consultas(cursor, usuario_cpf):
     query = '''
     SELECT id, data_consulta, hora_consulta, especialidade, medico, local_consulta, status
     FROM CONSULTAS
@@ -138,7 +127,7 @@ def obter_consultas_usuario(cursor, usuario_cpf):
     return consultas
 
 
-def obter_receitas_usuario(cursor, usuario_cpf):
+def obter_receitas(cursor, usuario_cpf):
     query = '''
     SELECT id, medicamento, dosagem, duracao, proxima_dose, instrucoes, status
     FROM RECEITAS

@@ -2,8 +2,6 @@ from core.guia_interativo_e_ia import *
 from core.tutoriais import *
 from core.farmacias_proximas import *
 from core.lembretes import *
-from database.database import abre_conexao, fecha_conexao, cria_tabelas_se_nao_existirem
-from main import __name__
 
 
 # =============================================================================

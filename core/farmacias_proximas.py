@@ -12,7 +12,11 @@ def encontrar_farmacias_proximas():
     api_key = "AIzaSyA6Sxw5Iyu-bPS_0brvZOWqX2X866JNcT8"
 
     while True:
-        cep = input("\nDigite seu CEP (apenas números): ")
+        cep = input("\nDigite seu CEP (apenas números) (Digite 'sair' para voltar): ").strip()
+
+        if cep.lower() == 'sair':
+            print("Voltando ao menu...")
+            return
 
         if not (cep.isdigit() and len(cep) == 8):
             print("CEP inválido. Por favor, tente novamente.")
